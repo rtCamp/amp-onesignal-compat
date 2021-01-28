@@ -1,14 +1,14 @@
-# AMP Skeleton Compatability
+# AMP One Signal Push Compatibility
 
-The skeleton plugin to add AMP compatibility to your theme.
+Plugin to add AMP compatibility to OneSignal – Web Push Notifications plugin.
 
 ## Notes
 
-- Rename plugin's folder to amp-skeleton-compat when you use this skeleton.
-- Replace Namespace AMP_Plugin_Name_Compat by your namespace in every file. 
-- Change Plugin Name
-- Add your name as author
-- Add your plugin URI
+- You need to install OneSignal – Web Push Notifications
+- Do OneSignal setup
+- Add API id and key
+- must be on https
+- Subdomains are not supported at movements.
 
 ## Plugin Structure
 
