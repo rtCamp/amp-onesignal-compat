@@ -86,6 +86,29 @@ function override_scripts_and_styles() {
 }
 
 /**
+ * Check if onesignal plugin is installed and configured.
+ *
+ * @return boolean string |false App id if plugin is configured otherwise false.
+ */
+function amp_is_onesignal() {
+
+	if ( ! class_exists( 'OneSignal' ) ) {
+		return false;
+	}
+
+	// Get App ID.
+	$onesignal_wp_settings = \OneSignal::get_onesignal_settings();
+	$onesignal_app_id      = $onesignal_wp_settings['app_id'];
+
+	if ( ! empty( $onesignal_app_id ) ) {
+		return $onesignal_app_id;
+	}
+
+	return false;
+
+}
+
+/**
  * Add AMP style.
  */
 function amp_one_signal_style() {
@@ -123,13 +146,11 @@ function filter_sanitizers( $sanitizers ) {
  */
 function add_amp_web_push() {
 
-	if ( ! class_exists( 'OneSignal' ) ) {
+	$onesignal_app_id = amp_is_onesignal();
+
+	if ( empty( $onesignal_app_id ) ) {
 		return;
 	}
-
-	// Get App ID.
-	$onesignal_wp_settings = \OneSignal::get_onesignal_settings();
-	$onesignal_app_id      = $onesignal_wp_settings['app_id'];
 
 	$one_signal_sdk_files_url = plugins_url( 'onesignal-free-web-push-notifications/sdk_files/' );
 
@@ -149,6 +170,11 @@ function add_amp_web_push() {
  * Add AMP webpush widget.
  */
 function add_amp_one_signal_widget() {
+	$onesignal_app_id = amp_is_onesignal();
+
+	if ( empty( $onesignal_app_id ) ) {
+		return;
+	}
 	?>
 	<!-- A subscription widget -->
 	<amp-web-push-widget visibility="unsubscribed" layout="fixed" width="245" height="45">
@@ -168,13 +194,6 @@ function add_amp_one_signal_widget() {
 	<!-- An unsubscription widget -->
 	<amp-web-push-widget visibility="subscribed" layout="fixed" width="230" height="45">
 		<button class="unsubscribe" on="tap:amp-web-push.unsubscribe">
-			<amp-img
-					class="subscribe-icon"
-					width="24"
-					height="24"
-					layout="fixed"
-					src="data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ic3Vic2NyaWJlLWljb24iIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMS44NCAxOS44ODdIMS4yMnMtLjk0Ny0uMDk0LS45NDctLjk5NWMwLS45LjgwNi0uOTQ4LjgwNi0uOTQ4czMuMTctMS41MTcgMy4xNy0yLjYwOGMwLTEuMDktLjUyLTEuODUtLjUyLTYuMzA1czIuODUtNy44NyA2LjI2LTcuODdjMCAwIC40NzMtMS4xMzQgMS44NS0xLjEzNCAxLjMyNSAwIDEuOCAxLjEzNyAxLjggMS4xMzcgMy40MTMgMCA2LjI2IDMuNDE4IDYuMjYgNy44NyAwIDQuNDYtLjQ3NyA1LjIyLS40NzcgNi4zMSAwIDEuMDkgMy4xNzYgMi42MDcgMy4xNzYgMi42MDdzLjgxLjA0Ni44MS45NDdjMCAuODUzLS45OTYuOTk1LS45OTYuOTk1SDExLjg0ek04IDIwLjk3N2g3LjExcy0uNDkgMi45ODctMy41MyAyLjk4N1M4IDIwLjk3OCA4IDIwLjk3OHoiIGZpbGw9IiNGRkYiLz48L3N2Zz4=">
-			</amp-img>
 			<?php esc_html_e( 'Unsubscribe' ); ?>
 		</button>
 	</amp-web-push-widget>

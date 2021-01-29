@@ -37,18 +37,16 @@ amp-web-push-widget button.subscribe:hover, amp-web-push-widget button.unsubscri
 amp-web-push-widget button.unsubscribe {
     display: inline-flex;
     align-items: center;
-    border-radius: 2px;
+    justify-content: center;
+    height: 45px;
     border: 0;
-    box-sizing: border-box;
     margin: 0;
-    padding: 10px 15px;
     cursor: pointer;
     outline: none;
     font-size: 15px;
     font-weight: 400;
-    background: #4A90E2;
-    color: white;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+    background: transparent;
+    color: #B1B1B1;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     position: fixed;
     bottom: 70px;
